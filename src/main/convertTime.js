@@ -4,6 +4,10 @@ const convertTime = (time, timeOfDay) => {
       return 24;
     }
 
+    if (time <= 4) {
+      return time + 24;
+    }
+
     return time;
   }
 
