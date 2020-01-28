@@ -11,4 +11,10 @@ describe('convertTime', () => {
     expect(convertTime(1, 'AM')).toBe(25);
     expect(convertTime(4, 'AM')).toBe(28);
   });
+
+  it('should convert time regardless of case', () => {
+    expect(convertTime(1, 'Am')).toBe(25);
+    expect(convertTime(1, 'am')).toBe(25);
+    expect(convertTime(1, 'pM')).toBe(13);
+  });
 });

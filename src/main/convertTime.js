@@ -1,4 +1,6 @@
 const convertTime = (time, timeOfDay) => {
+  timeOfDay = timeOfDay.toUpperCase();
+
   if (timeOfDay === 'AM') {
     if (time === 12) {
       return 24;
