@@ -1,4 +1,4 @@
-const convertTime = (time, timeOfDay) => {
+export const convertTime = (time, timeOfDay) => {
   timeOfDay = timeOfDay.toUpperCase();
 
   if (timeOfDay === 'AM') {
@@ -20,4 +20,15 @@ const convertTime = (time, timeOfDay) => {
   return time;
 };
 
-export default convertTime;
+export const convertJobRates = job => {
+  const convertedRates = [];
+
+  for (let i = 0; i < job.length; i++) {
+    let convertStart = convertTime(job[i].start.time, job[i].start.timeOfDay);
+    let convertEnd = convertTime(job[i].end.time, job[i].end.timeOfDay);
+
+    convertedRates.push({ start: convertStart, end: convertEnd });
+  }
+
+  return convertedRates;
+};

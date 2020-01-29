@@ -1,6 +1,4 @@
-const calculatePay = job => {
-  const { numHours, payRate } = job;
-
+const calculatePay = ({ numHours, payRate }) => {
   return numHours * payRate;
 };
 
