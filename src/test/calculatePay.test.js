@@ -1,9 +1,10 @@
 import calculatePay from '../main/calculatePay';
 
 describe('calculatePay', () => {
-  it('should multiply the number of hours by the pay rate', () => {
+  it('should calculate payment based on start and end times', () => {
     const job = {
-      numHours: 5,
+      start: 17,
+      end: 22,
       payRate: 10
     };
 
