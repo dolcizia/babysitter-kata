@@ -1,44 +1,54 @@
-import { familyARates, familyBRates, familyCRates } from '../families.data';
-
-export const calculateHours = range => {
-  const { start, end } = range;
-
-  return end - start;
-};
+import { convertJobRates } from './convertTime';
 
 export const calculateHoursWithRates = (job, rates) => {
+  // Convert job hours to 24 hour time
+  rates = convertJobRates(rates);
+
   const jobStart = job.start;
   const jobEnd = job.end;
-  const firstRate = rates.firstRate;
-  const secondRate = rates.secondRate;
-  const thirdRate = rates.thirdRate;
-  let firstChunk;
-  let secondChunk;
-  let thirdChunk;
+  const firstRate = rates[0];
+  const secondRate = rates[1];
+  let thirdRate;
 
-  if (jobStart < firstRate.rateEnd) {
-    if (jobEnd < firstRate.rateEnd) {
-      firstChunk = (jobEnd - jobStart) * firstRate.hourlyRate;
-    } else {
-      firstChunk = (firstRate.rateEnd - jobStart) * firstRate.hourlyRate;
-    }
-  } else {
-    firstChunk = 0;
+  // If there is a third rate, assign it to a variable
+  if (rates.length === 3) {
+    thirdRate = rates[2];
   }
 
-  if (jobStart < secondRate.rateEnd) {
-    if (jobEnd < secondRate.rateEnd) {
-      secondChunk = (secondRate.rateEnd - jobEnd) * secondRate.hourlyRate;
+  let firstChunk = 0;
+  let secondChunk = 0;
+  let thirdChunk = 0;
+
+  // Job begins during the firstRate period
+  if (jobStart < firstRate.rateEnd) {
+    // Job also ends during the firstRate period
+    if (jobEnd < firstRate.rateEnd) {
+      firstChunk = (jobEnd - jobStart) * firstRate.hourlyRate;
+
+      return firstChunk;
     } else {
+      // Job goes past the firstRate end into the secondRate
+      firstChunk = (firstRate.rateEnd - jobStart) * firstRate.hourlyRate;
+    }
+  }
+
+  // Job starts during, or goes into, secondRate period
+  if (jobStart < secondRate.rateEnd) {
+    // Job also ends during the secondRate period
+    if (jobEnd < secondRate.rateEnd) {
+      secondChunk = (jobEnd - firstRate.rateEnd) * secondRate.hourlyRate;
+
+      return firstChunk + secondChunk;
+    } else {
+      // Job goes past the secondRate end into the thirdRate
       secondChunk =
         (secondRate.rateEnd - firstRate.rateEnd) * secondRate.hourlyRate;
     }
   }
 
+  // If there is a thirdRate and the Job goes past the secondRate period
   if (thirdRate && jobEnd > secondRate.rateEnd) {
-    thirdChunk = (thirdRate.rateEnd - jobEnd) * thirdRate.hourlyRate;
-  } else {
-    thirdChunk = 0;
+    thirdChunk = (jobEnd - secondRate.rateEnd) * thirdRate.hourlyRate;
   }
 
   return firstChunk + secondChunk + thirdChunk;

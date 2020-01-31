@@ -1,4 +1,5 @@
 import { convertTime, convertJobRates } from '../main/convertTime';
+import { familyARates, familyBRates, familyCRates } from '../families.data';
 
 describe('convertTime', () => {
   it('should add 12 hours to any time after 12PM', () => {
@@ -21,45 +22,26 @@ describe('convertTime', () => {
 
 describe('convertJobRates', () => {
   it('should convert an array of rate objects into 24 hour time', () => {
-    const job = [
-      {
-        start: {
-          time: 5,
-          timeOfDay: 'PM'
-        },
-        end: {
-          time: 11,
-          timeOfDay: 'PM'
-        }
-      },
-      {
-        start: {
-          time: 11,
-          timeOfDay: 'PM'
-        },
-        end: {
-          time: 2,
-          timeOfDay: 'AM'
-        }
-      },
-      {
-        start: {
-          time: 2,
-          timeOfDay: 'AM'
-        },
-        end: {
-          time: 4,
-          timeOfDay: 'AM'
-        }
-      }
+    const resultA = [
+      { hourlyRate: 15, rateEnd: 23 },
+      { hourlyRate: 20, rateEnd: 28 }
     ];
 
-    const result = [
-      { end: 23, start: 17 },
-      { end: 26, start: 23 },
-      { end: 28, start: 26 }
+    expect(convertJobRates(familyARates)).toStrictEqual(resultA);
+
+    const resultB = [
+      { hourlyRate: 12, rateEnd: 22 },
+      { hourlyRate: 8, rateEnd: 24 },
+      { hourlyRate: 16, rateEnd: 28 }
     ];
 
-    expect(convertJobRates(job)).toStrictEqual(result);
+    expect(convertJobRates(familyBRates)).toStrictEqual(resultB);
+
+    const resultC = [
+      { hourlyRate: 21, rateEnd: 21 },
+      { hourlyRate: 15, rateEnd: 28 }
+    ];
+
+    expect(convertJobRates(familyCRates)).toStrictEqual(resultC);
   });
 });

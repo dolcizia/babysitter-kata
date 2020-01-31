@@ -1,39 +1,39 @@
-export const familyARates = {
-  firstRate: {
+export const familyARates = [
+  {
     hourlyRate: 15,
-    rateEnd: 23
+    rateEnd: { time: 11, timeOfDay: 'PM' }
   },
-  secondRate: {
+  {
     hourlyRate: 20,
-    rateEnd: 28
+    rateEnd: { time: 4, timeOfDay: 'AM' }
   }
-};
+];
 
-export const familyBRates = {
-  firstRate: {
+export const familyBRates = [
+  {
     hourlyRate: 12,
-    rateEnd: 22
+    rateEnd: { time: 10, timeOfDay: 'PM' }
   },
 
-  secondRate: {
+  {
     hourlyRate: 8,
-    rateEnd: 24
+    rateEnd: { time: 12, timeOfDay: 'AM' }
   },
 
-  thirdRate: {
+  {
     hourlyRate: 16,
-    rateEnd: 28
+    rateEnd: { time: 4, timeOfDay: 'AM' }
   }
-};
+];
 
-export const familyCRates = {
-  firstRate: {
+export const familyCRates = [
+  {
     hourlyRate: 21,
-    rateEnd: 21
+    rateEnd: { time: 9, timeOfDay: 'PM' }
   },
 
-  secondRate: {
+  {
     hourlyRate: 15,
-    rateEnd: 28
+    rateEnd: { time: 4, timeOfDay: 'AM' }
   }
-};
+];

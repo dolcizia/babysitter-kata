@@ -20,14 +20,17 @@ export const convertTime = (time, timeOfDay) => {
   return time;
 };
 
-export const convertJobRates = job => {
+export const convertJobRates = rates => {
   const convertedRates = [];
 
-  for (let i = 0; i < job.length; i++) {
-    let convertStart = convertTime(job[i].start.time, job[i].start.timeOfDay);
-    let convertEnd = convertTime(job[i].end.time, job[i].end.timeOfDay);
+  for (let i = 0; i < rates.length; i++) {
+    let newTime = convertTime(
+      rates[i].rateEnd.time,
+      rates[i].rateEnd.timeOfDay
+    );
+    let hourlyRate = rates[i].hourlyRate;
 
-    convertedRates.push({ start: convertStart, end: convertEnd });
+    convertedRates.push({ hourlyRate: hourlyRate, rateEnd: newTime });
   }
 
   return convertedRates;
