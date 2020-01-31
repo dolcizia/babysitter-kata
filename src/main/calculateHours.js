@@ -1,11 +1,22 @@
-import { convertJobRates } from './convertTime';
+import { convertJobRates, convertTime } from './convertTime';
 
-export const calculateHoursWithRates = (job, rates) => {
+export const calculateHoursWithRates = ({ start, end }, rates) => {
   // Convert job hours to 24 hour time
-  rates = convertJobRates(rates);
+  const jobStart = convertTime(start.time, start.timeOfDay);
+  const jobEnd = convertTime(end.time, end.timeOfDay);
 
-  const jobStart = job.start;
-  const jobEnd = job.end;
+  // Check if job is within working hours
+  if (jobStart < 17 || jobEnd < 17) {
+    return "I'm sorry I can only work between 5PM and 4AM";
+  }
+
+  // Make sure job end time is after job start time
+  if (jobStart >= 17 && jobStart > jobEnd) {
+    return 'Oops, end time is after start time!';
+  }
+
+  // Convert rates to 24 hour time
+  rates = convertJobRates(rates);
   const firstRate = rates[0];
   const secondRate = rates[1];
   let thirdRate;
