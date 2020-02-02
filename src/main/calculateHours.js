@@ -11,7 +11,7 @@ export const calculateHoursWithRates = ({ start, end }, rates) => {
   }
 
   // Make sure job end time is after job start time
-  if (jobStart >= 17 && jobStart > jobEnd) {
+  if (jobStart > jobEnd) {
     return 'Oops, end time is after start time!';
   }
 

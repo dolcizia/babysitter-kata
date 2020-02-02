@@ -1,26 +1,18 @@
 export const convertTime = (time, timeOfDay) => {
   timeOfDay = timeOfDay.toUpperCase();
 
+  if (time === 12) {
+    return timeOfDay === 'AM' ? 24 : 12;
+  }
+
   if (timeOfDay === 'AM') {
-    if (time === 12) {
-      return 24;
-    }
-
-    if (time <= 4) {
-      return time + 24;
-    }
-
-    return time;
+    return time <= 4 ? time + 24 : time;
   }
 
-  if (timeOfDay === 'PM' && time !== 12) {
-    return time + 12;
-  }
-
-  return time;
+  return time + 12;
 };
 
-export const convertJobRates = rates => {
+export const convertJobRates = (rates) => {
   const convertedRates = [];
 
   for (let i = 0; i < rates.length; i++) {

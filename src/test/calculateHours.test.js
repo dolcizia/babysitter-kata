@@ -51,10 +51,18 @@ describe('calculateHoursWithRates', () => {
       end: { time: 5, timeOfDay: 'AM' }
     };
 
+    const job3 = {
+      start: { time: 7, timeOfDay: 'PM' },
+      end: { time: 6, timeOfDay: 'AM' }
+    };
+
     expect(calculateHoursWithRates(job, familyARates)).toMatch(
       "I'm sorry I can only work between 5PM and 4AM"
     );
     expect(calculateHoursWithRates(job2, familyBRates)).toMatch(
+      "I'm sorry I can only work between 5PM and 4AM"
+    );
+    expect(calculateHoursWithRates(job3, familyBRates)).toMatch(
       "I'm sorry I can only work between 5PM and 4AM"
     );
   });
