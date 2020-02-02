@@ -4,6 +4,8 @@ export const calculateHoursWithRates = ({ start, end }, rates) => {
   // Convert job hours to 24 hour time
   const jobStart = convertTime(start.time, start.timeOfDay);
   const jobEnd = convertTime(end.time, end.timeOfDay);
+  const jobLength = jobEnd - jobStart;
+  let jobTotal;
 
   // Check if job is within working hours
   if (jobStart < 17 || jobEnd < 17) {
@@ -34,9 +36,9 @@ export const calculateHoursWithRates = ({ start, end }, rates) => {
   if (jobStart < firstRate.rateEnd) {
     // Job also ends during the firstRate period
     if (jobEnd < firstRate.rateEnd) {
-      firstChunk = (jobEnd - jobStart) * firstRate.hourlyRate;
+      jobTotal = (jobEnd - jobStart) * firstRate.hourlyRate;
 
-      return firstChunk;
+      return `$${jobTotal} for ${jobLength} hours`;
     } else {
       // Job goes past the firstRate end into the secondRate
       firstChunk = (firstRate.rateEnd - jobStart) * firstRate.hourlyRate;
@@ -49,7 +51,9 @@ export const calculateHoursWithRates = ({ start, end }, rates) => {
     if (jobEnd < secondRate.rateEnd) {
       secondChunk = (jobEnd - firstRate.rateEnd) * secondRate.hourlyRate;
 
-      return firstChunk + secondChunk;
+      jobTotal = firstChunk + secondChunk;
+
+      return `$${jobTotal} for ${jobLength} hours`;
     } else {
       // Job goes past the secondRate end into the thirdRate
       secondChunk =
@@ -62,5 +66,7 @@ export const calculateHoursWithRates = ({ start, end }, rates) => {
     thirdChunk = (jobEnd - secondRate.rateEnd) * thirdRate.hourlyRate;
   }
 
-  return firstChunk + secondChunk + thirdChunk;
+  jobTotal = firstChunk + secondChunk + thirdChunk;
+
+  return `$${jobTotal} for ${jobLength} hours`;
 };
